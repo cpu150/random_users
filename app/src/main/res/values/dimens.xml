@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--	Splash screen	-->
+    <dimen name="splash_screen_bottom_offset">-24dp</dimen>
+    <dimen name="splash_screen_background_radius">180dp</dimen>
+</resources>

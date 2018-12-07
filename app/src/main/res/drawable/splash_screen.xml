@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                    android:startColor="@color/colorSplashScreenBackgroundStart"
+                    android:endColor="@color/colorSplashScreenBackgroundEnd"
+                    android:gradientRadius="@dimen/splash_screen_background_radius"
+                    android:type="radial"/>
+        </shape>
+    </item>
+
+    <item android:bottom="@dimen/splash_screen_bottom_offset">
+        <bitmap
+                android:gravity="center"
+                android:src="@drawable/tux"/>
+    </item>
+</layer-list>
