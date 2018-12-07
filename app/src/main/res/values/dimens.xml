@@ -3,4 +3,10 @@
     <!--	Splash screen	-->
     <dimen name="splash_screen_bottom_offset">-24dp</dimen>
     <dimen name="splash_screen_background_radius">180dp</dimen>
+
+    <!--	Home page	-->
+    <dimen name="home_page_list_padding">16dp</dimen>
+    <dimen name="home_page_card_elevation">3dp</dimen>
+    <dimen name="home_page_card_radius">4dp</dimen>
+    <dimen name="home_page_card_horizontal_padding">8dp</dimen>
 </resources>
