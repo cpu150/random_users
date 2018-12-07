@@ -1,13 +1,18 @@
 package com.example.cpu150.randomusers.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.cpu150.randomusers.R
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        // Go to home activity
+        startActivity(Intent(this, HomePageActivity::class.java))
+
+        // Close activity
+        finish ()
     }
 }
