@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.example.cpu150.randomusers.R
 import com.example.cpu150.randomusers.models.RandomUserModel
-import com.squareup.picasso.Picasso
+import com.example.cpu150.randomusers.network.RandomUserApi
 import kotlinx.android.synthetic.main.card_view_home_page.view.*
 
 class HomePageListAdapter (private val dataList: List <RandomUserModel?>?, private val context: Context) : RecyclerView.Adapter<HomePageListAdapter.HomePageListViewHolder>() {
@@ -46,10 +46,10 @@ class HomePageListAdapter (private val dataList: List <RandomUserModel?>?, priva
     }
 
     private fun updateAvatar (userModel: RandomUserModel?, avatarImageView: ImageView) {
-        Picasso
-            .get()
-            .load(userModel?.picture?.large?.toString())
-            .placeholder(R.drawable.tux)
-            .into(avatarImageView)
+        RandomUserApi
+            .getPicasso(context)
+            ?.load(userModel?.picture?.large?.toString())
+            ?.placeholder(R.drawable.tux)
+            ?.into(avatarImageView)
     }
 }

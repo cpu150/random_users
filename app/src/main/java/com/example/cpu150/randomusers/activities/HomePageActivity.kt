@@ -19,8 +19,8 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
-        val getUsersCall = RandomUserApi.randomUserEndpoints.getRandomUsers(10)
-        getUsersCall.enqueue(object: Callback<GetRandomUsersModel> {
+        val getUsersCall = RandomUserApi.randomUserEndpoints?.getRandomUsers(10)
+        getUsersCall?.enqueue(object: Callback<GetRandomUsersModel> {
             override fun onFailure(call: Call<GetRandomUsersModel>, t: Throwable) {
                 Log.d("HomePageActivity", "Get random users network call failed: " + t.message)
             }
