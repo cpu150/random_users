@@ -4,19 +4,21 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/home_page_card_height"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:cardElevation="@dimen/home_page_card_elevation"
             app:cardCornerRadius="@dimen/home_page_card_radius"
-            android:layout_marginStart="@dimen/home_page_card_horizontal_padding"
-            android:layout_marginEnd="@dimen/home_page_card_horizontal_padding"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/home_page_card_padding"
+            android:layout_marginEnd="@dimen/home_page_card_padding"
+            android:layout_marginBottom="@dimen/home_page_card_padding"
+            android:layout_marginTop="@dimen/home_page_card_padding">
 
         <ImageView
                 android:id="@+id/avatarImageView"
@@ -33,7 +35,9 @@
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:gravity="center"
-                android:textSize="24sp" android:textColor="@android:color/white" android:layout_gravity="bottom"
+                android:textSize="@dimen/home_page_card_name_size"
+                android:textColor="@color/colorHomePageCardNameText"
+                android:layout_gravity="bottom"
                 android:background="@color/colorHomePageCardNameBackground"/>
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

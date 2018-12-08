@@ -12,4 +12,5 @@
 
     <!--	Home page	-->
     <color name="colorHomePageCardNameBackground">#30000000</color>
+    <color name="colorHomePageCardNameText">@android:color/white</color>
 </resources>
