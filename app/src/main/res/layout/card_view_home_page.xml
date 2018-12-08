@@ -25,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/tux"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription"
+                android:scaleType="centerCrop"/>
 
         <TextView
                 android:id="@+id/nameTextView"

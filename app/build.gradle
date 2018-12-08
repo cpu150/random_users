@@ -36,6 +36,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
+    // Picasso
+    implementation 'com.android.support:exifinterface:28.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     // Unit Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
