@@ -6,15 +6,25 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import com.example.cpu150.randomusers.R
 import com.example.cpu150.randomusers.adapters.HomePageListAdapter
+import com.example.cpu150.randomusers.dependencyinjection.ContextModule
+import com.example.cpu150.randomusers.dependencyinjection.DaggerHomePageComponent
 import com.example.cpu150.randomusers.models.GetRandomUsersModel
-import com.example.cpu150.randomusers.network.RandomUserApi
+import com.example.cpu150.randomusers.network.RandomUserEndpoints
+import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home_page.*
+import javax.inject.Inject
 
 class HomePageActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var randomUserEndpoints: RandomUserEndpoints
+
+    @Inject
+    lateinit var picasso: Picasso
 
     private val disposable = CompositeDisposable()
 
@@ -22,7 +32,12 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
-        RandomUserApi.randomUserEndpoints?.getRandomUsers(10)?.let { getUsersSingleObservable ->
+        DaggerHomePageComponent.builder()
+            .contextModule(ContextModule(this))
+            .build()
+            .inject(this)
+
+        randomUserEndpoints.getRandomUsers(10).let { getUsersSingleObservable ->
 
             val observer: DisposableSingleObserver<GetRandomUsersModel> = object: DisposableSingleObserver<GetRandomUsersModel>() {
                 override fun onError(e: Throwable) {
@@ -33,7 +48,7 @@ class HomePageActivity : AppCompatActivity() {
                     random_person_recycler_view.apply {
                         setHasFixedSize(true)
                         layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                        adapter = HomePageListAdapter(t.results, applicationContext)
+                        adapter = HomePageListAdapter(t.results, applicationContext, picasso)
                     }
                 }
             }
