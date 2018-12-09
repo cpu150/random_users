@@ -7,6 +7,7 @@ import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 object RandomUserApi {
     private var okHttp3Downloader: OkHttp3Downloader? = null
@@ -25,6 +26,7 @@ object RandomUserApi {
 
         randomUserEndpoints = Retrofit.Builder()
             .baseUrl(BuildConfig.API_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
