@@ -10,7 +10,6 @@ import com.example.cpu150.randomusers.dependencyinjection.ContextModule
 import com.example.cpu150.randomusers.dependencyinjection.DaggerHomePageComponent
 import com.example.cpu150.randomusers.models.GetRandomUsersModel
 import com.example.cpu150.randomusers.network.RandomUserEndpoints
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -23,18 +22,17 @@ class HomePageActivity : AppCompatActivity() {
     @Inject
     lateinit var randomUserEndpoints: RandomUserEndpoints
 
-    @Inject
-    lateinit var picasso: Picasso
-
     private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
-        DaggerHomePageComponent.builder()
+        val homePageComponent = DaggerHomePageComponent.builder()
             .contextModule(ContextModule(this))
             .build()
+
+        homePageComponent
             .inject(this)
 
         randomUserEndpoints.getRandomUsers(10).let { getUsersSingleObservable ->
@@ -45,10 +43,14 @@ class HomePageActivity : AppCompatActivity() {
                 }
 
                 override fun onSuccess(t: GetRandomUsersModel) {
+                    val homePageListAdapter = homePageComponent.homePageListAdapter()
+
+                    homePageListAdapter.dataList = t.results
+
                     random_person_recycler_view.apply {
                         setHasFixedSize(true)
                         layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                        adapter = HomePageListAdapter(t.results, applicationContext, picasso)
+                        adapter = homePageListAdapter
                     }
                 }
             }

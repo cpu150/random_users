@@ -10,8 +10,11 @@ import com.example.cpu150.randomusers.R
 import com.example.cpu150.randomusers.models.RandomUserModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_view_home_page.view.*
+import javax.inject.Inject
 
-class HomePageListAdapter (private val dataList: List <RandomUserModel?>?, private val context: Context, private val picasso: Picasso?) : RecyclerView.Adapter<HomePageListAdapter.HomePageListViewHolder>() {
+class HomePageListAdapter @Inject constructor(private val context: Context, private val picasso: Picasso) : RecyclerView.Adapter<HomePageListAdapter.HomePageListViewHolder>() {
+
+    var dataList: List <RandomUserModel>? = null
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): HomePageListViewHolder {
         // Create new card view
@@ -47,8 +50,8 @@ class HomePageListAdapter (private val dataList: List <RandomUserModel?>?, priva
 
     private fun updateAvatar (userModel: RandomUserModel?, avatarImageView: ImageView) {
         picasso
-            ?.load(userModel?.picture?.large?.toString())
-            ?.placeholder(R.drawable.tux)
-            ?.into(avatarImageView)
+            .load(userModel?.picture?.large?.toString())
+            .placeholder(R.drawable.tux)
+            .into(avatarImageView)
     }
 }
