@@ -1,9 +1,9 @@
 package com.example.cpu150.randomusers.activities
 
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cpu150.randomusers.R
 import com.example.cpu150.randomusers.dependencyinjection.ContextModule
 import com.example.cpu150.randomusers.dependencyinjection.DaggerHomePageComponent

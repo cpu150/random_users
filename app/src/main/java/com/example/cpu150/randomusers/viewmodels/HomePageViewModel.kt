@@ -1,7 +1,7 @@
 package com.example.cpu150.randomusers.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.util.Log
 import com.example.cpu150.randomusers.adapters.HomePageListAdapter
 import com.example.cpu150.randomusers.dependencyinjection.HomePageComponent
