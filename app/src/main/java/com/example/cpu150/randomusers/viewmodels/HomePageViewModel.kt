@@ -1,8 +1,9 @@
 package com.example.cpu150.randomusers.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cpu150.randomusers.adapters.HomePageListAdapter
 import com.example.cpu150.randomusers.dependencyinjection.HomePageComponent
 import com.example.cpu150.randomusers.models.GetRandomUsersModel
@@ -13,23 +14,33 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class HomePageViewModel (private var homePageComponent: HomePageComponent): ViewModel() {
+class HomePageViewModel (private val homePageComponent: HomePageComponent): ViewModel() {
 
     @Inject
     lateinit var randomUserEndpoints: RandomUserEndpoints
 
-    var homePageListAdapter = MutableLiveData<HomePageListAdapter> ()
+    @Inject
+    lateinit var listAdapter: HomePageListAdapter
+
+    val layoutManager: RecyclerView.LayoutManager
+        get() {
+            // Need to recreate an instance every time:
+            // RecyclerView crashes if trying to set the same LayoutManager instance twice (which happens during a rotation screen for example)
+            return StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        }
 
     private val disposable = CompositeDisposable()
 
     init {
+        // Dependencies
         homePageComponent.inject(this)
 
+        // Request data
         fetchData()
     }
 
     private fun fetchData () {
-        randomUserEndpoints.getRandomUsers(10).let { getUsersSingleObservable ->
+        randomUserEndpoints.getRandomUsers(10).also { getUsersSingleObservable ->
 
             val observer: DisposableSingleObserver<GetRandomUsersModel> = object: DisposableSingleObserver<GetRandomUsersModel>() {
                 override fun onError(e: Throwable) {
@@ -37,9 +48,8 @@ class HomePageViewModel (private var homePageComponent: HomePageComponent): View
                 }
 
                 override fun onSuccess(t: GetRandomUsersModel) {
-                    val adapter = homePageComponent.homePageListAdapter()
-                    adapter.dataList = t.results
-                    homePageListAdapter.value = adapter
+                    listAdapter.dataList = t.results
+                    listAdapter.notifyDataSetChanged()
                 }
             }
 
@@ -55,6 +65,6 @@ class HomePageViewModel (private var homePageComponent: HomePageComponent): View
 
         // disposable.clear() ->   will clear all, but can accept new disposable
         // disposable.dispose() -> will clear all and set isDisposed = true, so it will not accept any new disposable
-        disposable.dispose()
+        disposable.clear()
     }
 }

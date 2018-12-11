@@ -3,11 +3,10 @@ package com.example.cpu150.randomusers.activities
 import androidx.lifecycle.ViewModelProviders
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.databinding.DataBindingUtil
 import com.example.cpu150.randomusers.R
 import com.example.cpu150.randomusers.dependencyinjection.ContextModule
 import com.example.cpu150.randomusers.dependencyinjection.DaggerHomePageComponent
-import kotlinx.android.synthetic.main.activity_home_page.*
 import com.example.cpu150.randomusers.databinding.ActivityHomePageBinding
 import com.example.cpu150.randomusers.viewmodels.HomePageViewModel
 import com.example.cpu150.randomusers.viewmodels.HomePageViewModelFactory
@@ -24,18 +23,8 @@ class HomePageActivity : AppCompatActivity() {
             .build()
 
         // Setup Bindings
-        val binding = ActivityHomePageBinding.inflate(layoutInflater)
+        val binding: ActivityHomePageBinding = DataBindingUtil.setContentView(this, R.layout.activity_home_page)
         binding.homePageViewModel = ViewModelProviders.of(this, HomePageViewModelFactory(homePageComponent)).get(HomePageViewModel::class.java)
         binding.setLifecycleOwner(this)
-
-        binding.homePageViewModel?.homePageListAdapter?.observeForever {
-            random_person_recycler_view.adapter = it
-        }
-
-        // Views setup
-        random_person_recycler_view.apply {
-            setHasFixedSize(true)
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        }
     }
 }
