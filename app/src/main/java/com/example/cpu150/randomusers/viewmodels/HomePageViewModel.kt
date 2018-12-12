@@ -5,25 +5,16 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cpu150.randomusers.adapters.HomePageListAdapter
-import com.example.cpu150.randomusers.dependencyinjection.HomePageComponent
 import com.example.cpu150.randomusers.models.GetRandomUsersModel
 import com.example.cpu150.randomusers.network.RandomUserEndpoints
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class HomePageViewModel (private val homePageComponent: HomePageComponent): ViewModel() {
+class HomePageViewModel (private val randomUserEndpoints: RandomUserEndpoints, val listAdapter: HomePageListAdapter): ViewModel() {
 
-    @Inject
-    lateinit var randomUserEndpoints: RandomUserEndpoints
-
-    @Inject
-    lateinit var listAdapter: HomePageListAdapter
-
-    val layoutManager: RecyclerView.LayoutManager
-        get() {
+    fun getLayoutManager (): RecyclerView.LayoutManager {
             // Need to recreate an instance every time:
             // RecyclerView crashes if trying to set the same LayoutManager instance twice (which happens during a rotation screen for example)
             return StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -32,9 +23,6 @@ class HomePageViewModel (private val homePageComponent: HomePageComponent): View
     private val disposable = CompositeDisposable()
 
     init {
-        // Dependencies
-        homePageComponent.inject(this)
-
         // Request data
         fetchData()
     }

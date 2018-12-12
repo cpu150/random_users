@@ -24,7 +24,7 @@ class HomePageActivity : AppCompatActivity() {
 
         // Setup Bindings
         val binding: ActivityHomePageBinding = DataBindingUtil.setContentView(this, R.layout.activity_home_page)
-        binding.homePageViewModel = ViewModelProviders.of(this, HomePageViewModelFactory(homePageComponent)).get(HomePageViewModel::class.java)
+        binding.homePageViewModel = ViewModelProviders.of(this, HomePageViewModelFactory(homePageComponent.randomUserEndpoints(), homePageComponent.homePageListAdapter())).get(HomePageViewModel::class.java)
         binding.setLifecycleOwner(this)
     }
 }
