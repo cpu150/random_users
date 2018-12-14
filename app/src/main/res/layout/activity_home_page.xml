@@ -5,7 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="homePageViewModel" type="com.example.cpu150.randomusers.viewmodels.HomePageViewModel"/>
+        <variable name="listAdapter" type="com.example.cpu150.randomusers.adapters.HomePageListAdapter"/>
+        <variable name="viewModel" type="com.example.cpu150.randomusers.viewmodels.HomePageViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,8 +23,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:hasFixedSize="@{safeUnbox(Boolean.valueOf(true))}"
-                app:layoutManager="@{homePageViewModel.getLayoutManager()}"
-                app:adapter="@{homePageViewModel.listAdapter}"
+                app:layoutManager="@{viewModel.getLayoutManager()}"
+                app:adapter="@{listAdapter}"
                 android:layout_marginStart="@dimen/home_page_list_padding"
                 android:layout_marginTop="@dimen/home_page_list_padding"
                 android:layout_marginEnd="@dimen/home_page_list_padding"
