@@ -1,6 +1,5 @@
 /app/release
-.idea/codeStyles/
-.idea/navEditor.xml
+.idea
 
 # Created by https://www.gitignore.io/api/git,macos,android,androidstudio
 # Edit at https://www.gitignore.io/?templates=git,macos,android,androidstudio
