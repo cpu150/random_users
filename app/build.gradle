@@ -17,12 +17,35 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "API_URL", "\"https://randomuser.me/api/1.2/\""
     }
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", "\"https://randomuser.me/api/1.2/\""
+            resValue "string", "app_name", "Random Users DEV"
+        }
+        qa {
+            signingConfig signingConfigs.debug
+            applicationIdSuffix '.qa'
+            versionNameSuffix '-qa'
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-qa.pro'
+            matchingFallbacks = ['debug']
+            buildConfigField "String", "API_URL", "\"https://randomuser.me/api/1.2/\""
+            resValue "string", "app_name", "Random Users QA"
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", "\"https://randomuser.me/api/1.2/\""
+            resValue "string", "app_name", "Random Users"
         }
     }
     dataBinding {
