@@ -22,6 +22,8 @@ import org.junit.*
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.junit.Rule
+import com.google.gson.GsonBuilder
+import java.io.InputStreamReader
 
 class HomePageViewModelTest {
     @get:Rule val mockitoRule: MockitoRule = MockitoJUnit.rule()
@@ -59,6 +61,18 @@ class HomePageViewModelTest {
         }
     }
 
+    private var defaultGetRandomUsers: GetRandomUsersModel
+
+    init {
+        // Load JSON file
+        val `in` = javaClass.classLoader?.getResourceAsStream("GetRandomUsers.json")
+
+        defaultGetRandomUsers = if (`in` != null)
+            GsonBuilder().create().fromJson<GetRandomUsersModel>(InputStreamReader(`in`), GetRandomUsersModel::class.java)
+        else
+            GetRandomUsersModel(null)
+    }
+
     private val defaultEmail = "nicolas.poncet1@gmail.com"
     private val defaultLargeUrl = "https://randomuser.me/api/portraits/men/74.jpg"
     private val defaultMediumUrl = "https://randomuser.me/api/portraits/med/men/74.jpg"
@@ -87,6 +101,20 @@ class HomePageViewModelTest {
 
     private fun getName (homePageCardViewModel: HomePageCardViewModel?): String? {
         return homePageCardViewModel?.getName(longNameFormat, mediumTitleNameFormat, mediumNameFormat, shortNameFormat, defaultName)
+    }
+
+    @Test
+    fun testJsonFile() {
+        assertNotNull(defaultGetRandomUsers.results)
+        assertEquals(defaultGetRandomUsers.results?.size, 10)
+
+        defaultGetRandomUsers.results?.also {
+            requestRandomUsers (it)
+        }
+
+        val list = homePageViewModel.dataListLiveData.value
+        assertEquals (getName (list?.get(0)), "madame. marine da silva")
+        assertEquals (list?.get(0)?.getAvatarUrlString(null), "https://randomuser.me/api/portraits/women/60.jpg")
     }
 
     @Test
