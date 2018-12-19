@@ -8,6 +8,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'randomusers'
+            keyPassword 'Password'
+            storeFile file('../app/certificate/release.keystore')
+            storePassword 'Password'
+        }
+    }
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
@@ -33,7 +41,8 @@ android {
             applicationIdSuffix '.qa'
             versionNameSuffix '-qa'
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
+            useProguard true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-qa.pro'
             matchingFallbacks = ['debug']
@@ -41,8 +50,11 @@ android {
             resValue "string", "app_name", "Random Users QA"
         }
         release {
+            signingConfig signingConfigs.release
             debuggable false
-            minifyEnabled false
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_URL", "\"https://randomuser.me/api/1.2/\""
             resValue "string", "app_name", "Random Users"
@@ -55,7 +67,7 @@ android {
 
 dependencies {
     // Android
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
@@ -63,7 +75,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // View model
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
     // OkHttp
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'

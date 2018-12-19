@@ -43,3 +43,11 @@
     # Top-level functions that can only be used by Kotlin.
     -dontwarn retrofit2.-KotlinExtensions
 ### RETROFIT <<<
+
+### OKHTTP >>>
+    -keepattributes Signature
+    -keepattributes *Annotation*
+    -keep class okhttp3.** { *; }
+    -keep interface okhttp3.** { *; }
+    -dontwarn okhttp3.**
+### OKHTTP <<<
