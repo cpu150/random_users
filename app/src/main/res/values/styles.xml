@@ -4,6 +4,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Font -->
+        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/nunito_regular</item> <!-- target android sdk versions > 14 and < 26 if theme other than AppCompat -->
+        <item name="android:textColor">@color/colorDefaultText</item>
+        <item name="android:textSize">@dimen/font_size_default</item>
     </style>
 
     <!-- Splash Screen -->

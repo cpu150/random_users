@@ -36,8 +36,6 @@
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:gravity="center"
-                android:textSize="@dimen/home_page_card_name_size"
-                android:textColor="@color/colorHomePageCardNameText"
                 android:layout_gravity="bottom"
                 android:background="@color/colorHomePageCardNameBackground"/>
     </androidx.cardview.widget.CardView>

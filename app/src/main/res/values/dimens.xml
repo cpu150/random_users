@@ -10,5 +10,7 @@
     <dimen name="home_page_card_elevation">3dp</dimen>
     <dimen name="home_page_card_radius">8dp</dimen>
     <dimen name="home_page_card_padding">8dp</dimen>
-    <dimen name="home_page_card_name_size">14sp</dimen>
+
+    <!--	Font	-->
+    <dimen name="font_size_default">14sp</dimen>
 </resources>

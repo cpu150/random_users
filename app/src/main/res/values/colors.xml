@@ -5,6 +5,9 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <!-- Font -->
+    <color name="colorDefaultText">#fafafa</color>
+
     <!-- Splash theme -->
     <color name="colorSplashScreenBackgroundStart">#e0e0e0</color>
     <color name="colorSplashScreenBackgroundEnd">#ffffff</color>
@@ -12,5 +15,4 @@
 
     <!--	Home page	-->
     <color name="colorHomePageCardNameBackground">#30000000</color>
-    <color name="colorHomePageCardNameText">@android:color/white</color>
 </resources>
