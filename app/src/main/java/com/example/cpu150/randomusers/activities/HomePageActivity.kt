@@ -41,7 +41,7 @@ class HomePageActivity : AppCompatActivity() {
         binding.viewModel = ViewModelProviders.of(this, HomePageViewModelFactory(homePageComponent.randomUserEndpoints())).get(HomePageViewModel::class.java)
         val homePageListAdapter = homePageComponent.homePageListAdapter()
         binding.listAdapter = homePageListAdapter
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
         // Bind adapter and viewmodel
         binding.viewModel?.dataListLiveData?.observe(this, Observer<List<HomePageCardViewModel>> {
