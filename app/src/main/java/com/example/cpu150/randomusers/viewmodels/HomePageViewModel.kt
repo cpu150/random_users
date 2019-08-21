@@ -12,9 +12,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class HomePageViewModel(private val randomUserEndpoints: RandomUserEndpoints) : ViewModel() {
-
+class HomePageViewModel @Inject constructor(private val randomUserEndpoints: RandomUserEndpoints) : ViewModel() {
     val dataListLiveData = MutableLiveData<List<HomePageCardViewModel>> ()
 
     fun getLayoutManager (): RecyclerView.LayoutManager {

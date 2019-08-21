@@ -9,8 +9,9 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [(NetworkModule::class)])
 interface HomePageComponent {
-
     fun inject(homeModelView: HomePageViewModel)
+
+    fun homeModelView(): HomePageViewModel
 
     fun randomUserEndpoints (): RandomUserEndpoints
 
