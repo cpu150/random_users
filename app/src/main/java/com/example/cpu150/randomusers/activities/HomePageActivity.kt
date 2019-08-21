@@ -14,7 +14,6 @@ import com.example.cpu150.randomusers.viewmodels.HomePageViewModel
 import com.example.cpu150.randomusers.viewmodels.HomePageViewModelFactory
 
 class HomePageActivity : AppCompatActivity() {
-
     private val viewModelInitialisedStateKey = "viewModelInitialisedStateKey"
     private var viewModelInitialisedStateValue = false
 
@@ -54,7 +53,8 @@ class HomePageActivity : AppCompatActivity() {
             viewModelInitialisedStateValue = true
 
             // Request 10 random users
-            binding.viewModel?.requestData(10)
+//            binding.viewModel?.requestData(10)
+            binding.viewModel?.parallelRequestsForData(10)
         }
     }
 }
