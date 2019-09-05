@@ -1,9 +1,11 @@
 package com.example.cpu150.randomusers.dependencyinjection
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
 import com.example.cpu150.randomusers.BuildConfig
 import com.example.cpu150.randomusers.network.RandomUserEndpoints
+import com.example.cpu150.randomusers.network.interceptors.NetworkConnectionInterceptor
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -17,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import com.ncornette.cache.OkCacheControl
 
 @Module(includes = [(ContextModule::class)])
 class NetworkModule {
@@ -48,21 +51,56 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun okHttpClient (cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        val okHttpBuilder = OkHttpClient()
-            .newBuilder()
-            .cache(cache)
+    internal fun okHttpClient (cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor, networkMonitor: OkCacheControl.NetworkMonitor, networkConnectionInterceptor: NetworkConnectionInterceptor): OkHttpClient {
+        val okCacheControl = OkCacheControl.on(OkHttpClient.Builder())
+            .overrideServerCachePolicy(1, TimeUnit.SECONDS)
+            .forceCacheWhenOffline(networkMonitor)
+
+        val okHttpBuilder = okCacheControl.apply()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(networkConnectionInterceptor)
+            .cache(cache)
 
         addHeadersExample(okHttpBuilder)
-
         setupTimeoutExample(okHttpBuilder)
 
         return okHttpBuilder.build()
     }
 
-    private fun addHeadersExample (okHttpBuilder: OkHttpClient.Builder)
-    {
+    @Provides
+    internal fun networkMonitor(connectivityManager: ConnectivityManager): OkCacheControl.NetworkMonitor {
+        return OkCacheControl.NetworkMonitor {
+            connectivityManager.activeNetworkInfo?.isConnected == true
+        }
+    }
+
+    @Provides
+    internal fun networkConnectionInterceptor(connectivityManager: ConnectivityManager): NetworkConnectionInterceptor {
+        return object : NetworkConnectionInterceptor() {
+            override val isInternetAvailable: Boolean
+                get() {
+                    return connectivityManager.activeNetworkInfo?.isConnected == true
+                }
+
+            override fun onDataFromCache() {
+                // response came from cache
+            }
+
+            override fun onDataFromInternet() {
+                // response came from server
+            }
+
+            override fun onDataUnavailable() {
+                // no internet and no cache data
+            }
+
+            override fun onInternetUnavailable() {
+                // no internet connection
+            }
+        }
+    }
+
+    private fun addHeadersExample (okHttpBuilder: OkHttpClient.Builder) {
         okHttpBuilder.addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()
@@ -73,9 +111,8 @@ class NetworkModule {
         }
     }
 
-    private fun setupTimeoutExample (okHttpBuilder: OkHttpClient.Builder)
-    {
-        val requestTimeout = 60L
+    private fun setupTimeoutExample (okHttpBuilder: OkHttpClient.Builder) {
+        val requestTimeout = 30L
 
         okHttpBuilder
             .connectTimeout(requestTimeout, TimeUnit.SECONDS)
@@ -100,5 +137,10 @@ class NetworkModule {
         val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.d("HttpLog", message) })
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor
+    }
+
+    @Provides
+    internal fun connectivityManager(context: Context): ConnectivityManager {
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 }

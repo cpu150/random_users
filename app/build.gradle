@@ -81,6 +81,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
 
+    // OkCacheControl
+    implementation 'com.ncornette.cache:okcache-control:1.1.1'
+
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'

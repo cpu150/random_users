@@ -53,7 +53,6 @@ class HomePageActivity : AppCompatActivity() {
             viewModelInitialisedStateValue = true
 
             // Request 10 random users
-//            binding.viewModel?.requestData(10)
             binding.viewModel?.parallelRequestsForData(10)
         }
     }
