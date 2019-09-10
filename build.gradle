@@ -22,6 +22,27 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate { project ->
+        //Common tasks for android application modules
+        if (project.plugins.hasPlugin("com.android.application")) {
+            android.applicationVariants.all { variant ->
+                def projectName = project.android.defaultConfig.applicationId.split('\\.').last()
+                def type = variant.buildType.name
+                def vCode = project.android.defaultConfig.versionCode
+                def vName = project.android.defaultConfig.ext.versionName
+                def gitHash = project.android.defaultConfig.ext.gitHash
+                def gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+
+                variant.outputs.all { output ->
+                    // Rename apk file name (ex: 'randomusers-app-qa-1.0.42-33c0867-master.apk')
+                    outputFileName = "${projectName}-${project.name}-${type}-${vName}.${vCode}-${gitHash}-${gitBranch}.apk"
+                }
+            }
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

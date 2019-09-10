@@ -19,17 +19,21 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId "com.example.cpu150.randomusers"
+        ext {
+            versionName = '1.0'
+            gitHash = 'git rev-parse --short HEAD'.execute().text.trim()
+        }
+        applicationId 'com.example.cpu150.randomusers'
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 'git rev-list --count HEAD'.execute().text.trim().toInteger()
+        versionName "${ext.versionName} (${ext.gitHash})"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         debug {
             applicationIdSuffix '.dev'
-            versionNameSuffix '-dev'
+            versionNameSuffix ' dev'
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -39,7 +43,7 @@ android {
         qa {
             signingConfig signingConfigs.debug
             applicationIdSuffix '.qa'
-            versionNameSuffix '-qa'
+            versionNameSuffix ' qa'
             debuggable true
             minifyEnabled true
             useProguard true
