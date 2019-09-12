@@ -33,7 +33,6 @@ class HomePageViewModelTest {
     @InjectMocks lateinit var homePageViewModel: HomePageViewModel
 
     companion object {
-
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
